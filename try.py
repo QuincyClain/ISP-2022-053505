@@ -1,41 +1,41 @@
-﻿def avg_slov(s1):
+﻿def avg_words(s1):
     a = len(s1.split(' '))
     b = len(s1.split('.')) - 1
     avg = a / b
     print("Среднее количество слов в предложении " + str(avg))
 def create_dict(s1):
-    xz = []
-    dic = {}
+    mas = []
+    dict = {}
     st = ""
     for i in s1:
         if i == ' ' or i == '.':
             if st != '':
-                xz.append(st)
+                mas.append(st)
             st = ""
         else:
             st += i
 
-    for i in xz:
-        dic[i] = xz.count(i)
-    for k, v in dic.items():
+    for i in mas:
+        dict[i] = mas.count(i)
+    for k, v in dict.items():
         print(str(k) + " : " + str(v))
 def sort_dict(s1):
-    xz = []
-    dic = {}
+    mas = []
+    dict = {}
     str = ""
     for i in s1:
         if i == ' ' or i == '.':
             if str != '':
-                xz.append(str)
+                mas.append(str)
             str = ""
         else:
             str += i
 
-    for i in xz:
-        dic[i] = xz.count(i)
-    lis = sorted(dic.items(), key=lambda x: x[1])
-    dic = dict(lis)
-    print(dic)
+    for i in mas:
+        dict[i] = mas.count(i)
+    lis = sorted(dict.items(), key=lambda x: x[1])
+    dict = dict(lis)
+    print(dict)
 s1 = input("Введите текст ")
 while(1):
 
@@ -45,12 +45,13 @@ while(1):
     print("Введите любое другое число если хотите выйти")
     c = input("Введите что вы хотите сделать> ")
     if c == '1':
-        avg_slov(s1)
+        avg_words(s1)
     elif c == '2':
         create_dict(s1)
     elif c =='3':
         sort_dict(s1)
     else:
+        print("Всего хорошего!")
         break
 
 
