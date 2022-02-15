@@ -51,6 +51,7 @@ while(1):
     elif c =='3':
         sort_dict(s1)
     else:
+        print("Всего хорошего!")
         break
 
 
