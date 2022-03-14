@@ -8,7 +8,7 @@ def average_count(text_in):
         sentence_count += 1
         total_words += len(text_in[key])
 
-    return (total_words / sentence_count)
+    return (total_words / (sentence_count -1))
 
 
 def median_count(text_in):
@@ -55,14 +55,22 @@ def top_ngrams(text_in, K, N):
     return (dict(sorted(ngrams_dictionary.items(), key=lambda item: item[1], reverse=True)))
 
 
+def replace_all(text, dictionary):
+    for i, j in dictionary.items():
+        text = text.replace(i,j)
+    return text
+
+
 def main():
-                    
-    text = input().replace(",","").replace(":","").replace(";","").replace("?",".").replace("!",".").lower().split(".")
+
+    text = input().lower()
+    #correct_text = text.translate(text.maketrans("!?", "..", ";:,")).split(".")
+    correct_text = replace_all(text, {",": "", ":" : "", ";" : "", "?": ".", "!": "." }).split(".")
     text_in = dict()
 
-    for sentence in text:
-        text_in[text.index(sentence)+1] = sentence.split()
-        
+    for sentence in correct_text:
+        text_in[correct_text.index(sentence)+1] = sentence.split()
+
     list_words = repeats(text_in)
     print("Word repetition list:")
 
