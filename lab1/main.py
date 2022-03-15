@@ -64,7 +64,6 @@ def replace_all(text, dictionary):
 def main():
 
     text = input().lower()
-    #correct_text = text.translate(text.maketrans("!?", "..", ";:,")).split(".")
     correct_text = replace_all(text, {",": "", ":" : "", ";" : "", "?": ".", "!": "." }).split(".")
     text_in = dict()
 
