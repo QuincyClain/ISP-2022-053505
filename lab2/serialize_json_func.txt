@@ -1,0 +1,1 @@
+{"__code__": "<code object fact at 0x000001D8D6E1C540, file \"c:\Users\pesot\Desktop\4 sem\4 семестр(мой)\ИСП\лаб2\lab2.py\", line 26>", "__globals__": ["a","b","fact], "__name__": "fact"}

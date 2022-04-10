@@ -1,0 +1,12 @@
+
+age: 19
+dict:
+  a: 1
+  b: 
+    lol: 2
+married: true
+my_list:
+- 1
+- 2
+- 3
+name: Vlad

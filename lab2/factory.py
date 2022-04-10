@@ -1,11 +1,16 @@
 from types import FunctionType, CodeType
 import json_class
+import yaml_class
 
-class Serializer_factory:
-    def create_serializer(self, format):
+
+class Factory:
+    def create_parser(self, format):
         parser = None
         if format == "JSON":
             parser = json_class.JSON()
+            return parser
+        elif format == "YAML":
+            parser = yaml_class.YAML()
             return parser
         else:
             raise ValueError(format)

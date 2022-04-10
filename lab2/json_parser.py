@@ -1,11 +1,8 @@
 import inspect
+import re
+
 
 class Json_Parser:
-    @staticmethod
-    def dump(obj, file):
-        with open(file, 'w') as f:
-            f.write(Json_Parser.dumps(obj))
-            f.close()
 
     @staticmethod
     def dumps(obj):
@@ -59,3 +56,65 @@ class Json_Parser:
             else:
                 raise ValueError(obj)
             return json_line
+
+
+    @staticmethod
+    def dump(obj, file):
+        with open(file, 'w') as f:
+            f.write(Json_Parser.dumps(obj))
+            f.close()
+
+
+    @staticmethod
+    def loads(str):
+        name = r'[a-zA-z0-9_]'
+        obj = dict()
+        key = ""
+        nstr = str.split("\n")
+        dictflag = 0
+        if str.startswith("{"):
+            for i in nstr:
+                if i.find(": ") != -1:
+                    colonstr = i.split(": ")
+                    if dictflag == 0:
+                        key = Json_Parser.loads(colonstr[0])
+                        if colonstr[1] == "{":
+                            dictflag = 1
+                            obj[key] = {}
+                        else:
+                            obj[key] = Json_Parser.loads(colonstr[1])
+                    else:
+                        tempkey = Json_Parser.loads(colonstr[0])
+                        obj[key][tempkey] = Json_Parser.loads(colonstr[1])
+                else:
+                    if str.find("}"):
+                        dictflag = 0
+        elif str.startswith("["):
+            temp = str.replace("[", '').replace("]", '').split(" ")
+            temp1 = []
+            for i in temp:
+                temp1.append(Json_Parser.loads(i))
+            return temp1
+        elif str.endswith(","):
+            temp = str.replace(",", '')
+            return Json_Parser.loads(temp)
+        elif str.endswith("\""):
+            temp = str.replace("\"", '')
+            return Json_Parser.loads(temp)
+        elif str.isdigit():
+            return int(str)
+        elif re.search(name, str).start() == 0:
+            if str == "true":
+                return True
+            elif str == "false":
+                return False
+            return str
+        return obj
+
+
+    def load(file):
+        with open(file, 'r') as f:
+            json_string = f.read()
+            my_dict = Json_Parser.loads(json_string)
+            f.close()
+        return my_dict

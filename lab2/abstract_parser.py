@@ -2,12 +2,15 @@ from abc import abstractclassmethod, abstractmethod
 
 
 class AbstractParser:
+    @abstractmethod
     def dump(self, obj):
         ...
     @abstractmethod
     def dumps(self, obj):
         ...
-    def load(obj):
-        pass
-    def loads(obj):
-        pass
+    @abstractmethod
+    def load(self, file):
+        ...
+    @abstractmethod
+    def loads(self, obj):
+        ...
