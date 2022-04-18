@@ -1,33 +1,27 @@
 import inspect
 import re
+import types
 
 
 class Json_Parser:
-
     @staticmethod
     def dumps(obj):
-            json_line = ''
-            if inspect.isroutine(obj):
-                atributes = inspect.getmembers(obj)
-                json_line += '{\n'
-                for elem in atributes:
-                    if elem[0] == '__name__':
-                        json_line += Json_Parser.dumps(elem[0]) + ': ' + Json_Parser.dumps(elem[1])
-                        json_line += ',\n'
-                    elif elem[0] == '__code__':
-                        json_line +=Json_Parser.dumps(elem[0]) + ': ' + Json_Parser.dumps(str(elem[1])) + ',\n'
-                    elif elem[0] == '__globals__':
-                        json_line +=Json_Parser.dumps(elem[0]) +': ['
-                        for elem in atributes:
-                            if elem[0] == '__code__':
-                                for name in elem[1].co_names:
-                                    if name in obj.__globals__:
-                                        json_line += Json_Parser.dumps(name)
-                                        json_line += ','
-                        json_line = json_line[:-2]
-                        json_line += '],\n'
-                json_line = json_line[:-2]
-                json_line += '\n}'
+            json_line = '' 
+            if isinstance(obj, bytes):
+                json_line += 'bytes:' + Json_Parser.dumps(obj.hex())
+            elif isinstance(obj, types.FunctionType):
+                result = {}
+                result['func'] = Json_Parser.dumps(obj.__code__)
+                json_line += Json_Parser.dumps(result)
+            elif isinstance(obj, types.CodeType):
+                elements = dict()
+                attrs = list(
+                filter(lambda item: not item.startswith('_'), dir(obj)))
+                for attr in attrs:
+                    elements[attr] = Json_Parser.dumps(obj.__getattribute__(attr))
+                xd = {}
+                xd['code'] = Json_Parser.dumps(elements)
+                json_line += Json_Parser.dumps(xd)      
             elif isinstance(obj, (list, tuple)):
                 json_line += '['
                 for elem in obj:
@@ -36,11 +30,11 @@ class Json_Parser:
                 json_line = json_line[:-2]
                 json_line += ']'
             elif isinstance(obj, dict):
-                json_line += '{\n'
+                json_line += '{'
                 for key, val in obj.items():
-                    json_line += Json_Parser.dumps(key) + ': ' + Json_Parser.dumps(val) + ',\n'
+                    json_line += Json_Parser.dumps(key) + ': ' + Json_Parser.dumps(val) + ', '
                 json_line = json_line[:-2]
-                json_line += '\n}'
+                json_line += '}'
             elif isinstance(obj, bool):
                 if obj:
                     json_line += 'true'
@@ -49,7 +43,7 @@ class Json_Parser:
             elif isinstance(obj, (int, float)):
                 json_line += str(obj)
             elif isinstance(obj, str):
-                obj = obj.replace('\"', '\\\"')
+                #obj = obj.replace('\"', '\\\"')
                 json_line += '\"' + obj + '\"'
             elif obj is None:
                 json_line += "null"
