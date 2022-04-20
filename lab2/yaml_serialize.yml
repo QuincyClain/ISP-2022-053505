@@ -1,10 +1,15 @@
 age: 19
-dict:
+autistic: false
+married: true
+my_dict:
   a: 1
   b:
     lol: 2
-married: true
 my_list:
+- 1
+- 2
+- 3
+my_tuple:
 - 1
 - 2
 - 3

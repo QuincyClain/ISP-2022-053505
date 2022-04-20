@@ -1,6 +1,7 @@
 import json
 import yaml
 import factory
+from json_parser import Json_Parser
 import serialize_to_dict
 import math
 
@@ -18,8 +19,10 @@ class Person:
         self.name = name
         self.age = age
         self.married = True
-        self.dict = {"a": 1, "b": {"lol": 2}}
+        self.autistic = False
+        self.my_dict = {"a": 1, "b": {"lol": 2}}
         self.my_list = [1, 2, 3]
+        self.my_tuple = (1, 2, 3)
 
     
     def introduce(self):
@@ -59,9 +62,16 @@ def main():
     #just an object from to test
     obj = Person("Vlad", 19)
     obj_dict = obj.__dict__
+
+    my_check_list = ['hey', 'my', 'name', 'is', 'vlad']
+
+    my_file = open('json_test_2.json', 'w')
+    json.dump(my_check_list, my_file)
         
     print(serialize_to_dict.serialize(obj_dict))
     print(serialize_to_dict.serialize(fa))
+
+
 
     ser_func = serialize_to_dict.serialize(fa)
     des_func = serialize_to_dict.deserialize(ser_func)
@@ -74,19 +84,21 @@ def main():
     yaml_parser = parser.create_parser('YAML')
 
 
+
+
     #json_string = json.dumps(obj_dict)
     tupple = ("Vlad", "Alex")
     json_parser_string = json_parser.dumps(obj_dict)
     json_parser_func = json_parser.dumps(fact)
-    json_parser.dump(fact, 'serialize_json_func.txt')
-    json_parser.dump(obj_dict, 'serialize_json_obj.txt')
+    #json_parser.dump(fact, 'serialize_json_func.txt')
+    #json_parser.dump(obj_dict, 'serialize_json_obj.txt')
 
     #yaml_strin = yaml.dumps(obj_dict)
     with open('yaml_serialize.yml', 'w') as f:
         f.write(yaml.safe_dump(obj_dict))
         f.close()
     yaml_parser_string = yaml_parser.dumps(tupple)
-    #yaml_parser_func = yaml_parser.dumps(fact)
+    yaml_parser_func = yaml_parser.dumps(fact)
     yaml_parser.dump(obj_dict, 'my_yaml_serialize.yml')
 
     print("JSON: ")
@@ -96,7 +108,7 @@ def main():
 
     print("YAML: ")
     print(yaml_parser_string)
-   # print(yaml_parser_func)
+    print(yaml_parser_func)
     #loads_object
     #deserealize_object = json_parser.loads(json_parser_string)
    # print(deserealize_object)
@@ -110,8 +122,8 @@ def main():
 
     #json_loads_list
 
-    list_str = json_parser.dumps([1,2,3])
-    print(list_str)
+    #list_str = json_parser.dumps([1,2,3])
+    #print(list_str)
     #my_list = json_parser.loads(list_str)
    # print(my_list)
     #my_list.pop()
@@ -122,10 +134,16 @@ def main():
     my_list = ["vlad", "alex", "angel"]
     print(my_tuple)
     print(my_list)
-    lol = json_parser.dumps(my_tuple)
    # my_des_tuple = json_parser.loads(lol)
     #print(my_des_tuple)
    # print(type(my_des_tuple))
+
+    test_1 = json_parser.dumps(obj_dict)
+    print(test_1)
+    file = 'my_json.json'
+    json_parser.dump(obj_dict, file)
+
+    print(json_parser.loads(test_1))
 
     '''
     #json_load

@@ -19,10 +19,11 @@ co_list = (
     )
     
 
-
 def serialize(obj):
     my_dict = {}
-    if isinstance(obj, (int,float, str)):
+    if isinstance(obj, bool):
+        return bool(obj)
+    elif isinstance(obj, (int,float, str)):
         return obj
     elif isinstance(obj, tuple):
         key = 'tuple'
@@ -65,6 +66,7 @@ def serialize(obj):
 
 
 def deserialize(serialized_obj):
+    my_dict = {}
     if isinstance(serialized_obj, dict):
         for key, val in serialized_obj.items():
             if key == 'bytes':
@@ -80,23 +82,26 @@ def deserialize(serialized_obj):
                 for co_item in co_list:
                     temp.append(deserialize(val[co_item]))
                 temp_tuple = tuple(temp)
-                print(temp_tuple)
                 return types.CodeType(*temp_tuple)
             elif key == 'dict':
                 return val
-            elif key == 'list':
-                my_list = []
-                for i in val:
-                    my_list.append(deserialize(i))
-                return my_list
             elif key == 'tuple':
                 my_list = []
                 for i in val:
                     my_list.append(deserialize(i))
                 my_tuple = tuple(my_list)
+                my_dict[deserialize(key)] = my_tuple
                 return my_tuple
-    elif isinstance(serialized_obj, (int, float, str)):
+            elif isinstance(val, list):
+                my_list = []
+                for i in val:
+                    my_list.append(deserialize(i))
+                my_dict[deserialize(key)] = my_list
+            else:
+                my_dict[deserialize(key)] = deserialize(val)
+    elif isinstance(serialized_obj, (bool, int, float, str)):
         return serialized_obj
+    return my_dict
             
 
         
