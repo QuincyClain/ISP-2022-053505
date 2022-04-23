@@ -1,0 +1,30 @@
+[func.code]
+co_argcount = 1
+co_filename = 'c:\Users\pesot\Desktop\4 sem\4 семестр(мой)\ИСП\лаб2\lab2.py'
+co_firstlineno = 34
+co_flags = 67
+co_kwonlyargcount = 0
+co_name = 'fa'
+co_nlocals = 2
+co_stacksize = 4
+
+[func.code.co_cellvars]
+tuple = []
+
+[func.code.co_code]
+bytes = '64017d017400a0017c007c01140074021400a1015300'
+
+[func.code.co_consts]
+tuple = [{  }, 123]
+
+[func.code.co_freevars]
+tuple = []
+
+[func.code.co_lnotab]
+bytes = '00010401'
+
+[func.code.co_names]
+tuple = ['math', 'sin', 'c']
+
+[func.code.co_varnames]
+tuple = ['x', 'a']

@@ -1,0 +1,21 @@
+dict:
+  age: 19
+  autistic: false
+  married: true
+  my_dict:
+    dict:
+      a: 1
+      b:
+        dict:
+          lol: 2
+  my_list:
+    list:
+    - 1
+    - 2
+    - 3
+  my_tuple:
+    tuple:
+    - 1
+    - 2
+    - 3
+  name: Vlad
