@@ -11,7 +11,7 @@ class Json_Parser:
                 if key == 'tuple' or key == 'list':
                     json_line += '['
                     if len(val) == 0:
-                        json_line+= '  '
+                        json_line += '  '
                     for item in val:
                         json_line += Json_Parser.dumps(item)
                         json_line += ', '
@@ -26,9 +26,15 @@ class Json_Parser:
                         json_line += ', '
                     json_line = json_line[:-2]
                     json_line += '}'
+                else:
+                    json_line += '{'
+                    json_line += Json_Parser.dumps(key) + ': ' + Json_Parser.dumps(val)
+                    json_line += ', '
+                    json_line = json_line[:-2]
+                    json_line += '}'
                 json_line += ', '
             json_line = json_line[:-2]
-        #LOL
+        # LOL
         elif isinstance(obj, bool):
             if obj:
                 json_line += 'true'
@@ -39,7 +45,7 @@ class Json_Parser:
         elif isinstance(obj, str):
             json_line += '\"' + obj + '\"'
         return json_line
-    
+
 
     @staticmethod
     def dump(obj, file):
@@ -51,8 +57,10 @@ class Json_Parser:
     @staticmethod
     def loads(obj):
         diff_str = obj.replace("true", "True").replace("false", "False")
-        my_dict = {}
+        print(obj)
         my_dict = ast.literal_eval(diff_str)
+        print(my_dict)
+        print(type(my_dict))
         return serialize_to_dict.deserialize(my_dict)
     
 

@@ -11,6 +11,7 @@ class JSON(abstract_parser.AbstractParser):
     
     def dumps(self, obj):
         serialized_obj = serialize_to_dict.serialize(obj)
+        print(serialized_obj)
         return json_parser.Json_Parser.dumps(serialized_obj)
 
     

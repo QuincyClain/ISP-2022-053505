@@ -15,8 +15,8 @@ class YAML(abstract_parser.AbstractParser):
 
 
     def loads(self, obj):
-        return yaml_parser.Yaml_Parser.loads(obj)
+        return yaml_parser.Yaml_parser.loads(obj)
 
 
     def load(self, file):
-        return yaml_parser.Yaml_Parser.load(file)
+        return yaml_parser.Yaml_parser.load(file)

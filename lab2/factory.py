@@ -1,6 +1,7 @@
 from types import FunctionType, CodeType
 import json_class
 import yaml_class
+import toml_class
 
 
 class Factory:
@@ -11,6 +12,9 @@ class Factory:
             return parser
         elif format == "YAML":
             parser = yaml_class.YAML()
+            return parser
+        elif format == "TOML":
+            parser = toml_class.TOML()
             return parser
         else:
             raise ValueError(format)

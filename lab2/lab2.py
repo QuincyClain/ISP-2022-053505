@@ -55,7 +55,7 @@ def main():
 
 
     #json to dict check
-    x =  '{ "name":"Vlad", "age":19, "city":"Minsk"}'
+    x = '{ "name":"Vlad", "age":19, "city":"Minsk"}'
     y = json.loads(x)
     print(y["name"], y["age"], y["city"])
 
@@ -63,94 +63,27 @@ def main():
     obj = Person("Vlad", 19)
     obj_dict = obj.__dict__
 
-    my_check_list = ['hey', 'my', 'name', 'is', 'vlad']
-
-    my_file = open('json_test_2.json', 'w')
-    json.dump(my_check_list, my_file)
-        
-    print(serialize_to_dict.serialize(obj_dict))
-    print(serialize_to_dict.serialize(fa))
-
-
-
-    ser_func = serialize_to_dict.serialize(fa)
-    des_func = serialize_to_dict.deserialize(ser_func)
-
-    print(des_func(5))
-
     #create concrete parser
     parser = factory.Factory()
     json_parser = parser.create_parser('JSON')
     yaml_parser = parser.create_parser('YAML')
 
+    json_ser_func = json_parser.dumps(fa)
+    print(json_ser_func)
+
+    ser_obj = json_parser.dumps(obj_dict)
+    print(ser_obj)
+    print("aaaaa")
+
+
+    #json_des_func = json_parser.loads(json_ser_func)
+    #print(json_des_func(5))
+    yaml_ser_func = yaml_parser.dumps(fa)
+    yaml_des_func = yaml_parser.loads(yaml_ser_func)
+    print(yaml_des_func(10))
 
 
 
-    #json_string = json.dumps(obj_dict)
-    tupple = ("Vlad", "Alex")
-    json_parser_string = json_parser.dumps(obj_dict)
-    json_parser_func = json_parser.dumps(fact)
-    #json_parser.dump(fact, 'serialize_json_func.txt')
-    #json_parser.dump(obj_dict, 'serialize_json_obj.txt')
-
-    #yaml_strin = yaml.dumps(obj_dict)
-    with open('yaml_serialize.yml', 'w') as f:
-        f.write(yaml.safe_dump(obj_dict))
-        f.close()
-    yaml_parser_string = yaml_parser.dumps(tupple)
-    yaml_parser_func = yaml_parser.dumps(fact)
-    yaml_parser.dump(obj_dict, 'my_yaml_serialize.yml')
-
-    print("JSON: ")
-    #print(json_string)
-    print(json_parser_string)
-    print(json_parser_func)
-
-    print("YAML: ")
-    print(yaml_parser_string)
-    print(yaml_parser_func)
-    #loads_object
-    #deserealize_object = json_parser.loads(json_parser_string)
-   # print(deserealize_object)
-
-    #checking bool after loads
-    #if(deserealize_object["married"]):
-      #  print('it is TRUE!')
-
-   # deserealize_object = Person(deserealize_object["name"], deserealize_object["age"])
-  #  print(type(deserealize_object))
-
-    #json_loads_list
-
-    #list_str = json_parser.dumps([1,2,3])
-    #print(list_str)
-    #my_list = json_parser.loads(list_str)
-   # print(my_list)
-    #my_list.pop()
-   # print(my_list)
-
-    #json_laods_tuple
-    my_tuple = ("vlad", "alex", "angel")
-    my_list = ["vlad", "alex", "angel"]
-    print(my_tuple)
-    print(my_list)
-   # my_des_tuple = json_parser.loads(lol)
-    #print(my_des_tuple)
-   # print(type(my_des_tuple))
-
-    test_1 = json_parser.dumps(obj_dict)
-    print(test_1)
-    file = 'my_json.json'
-    json_parser.dump(obj_dict, file)
-
-    print(json_parser.loads(test_1))
-
-    '''
-    #json_load
-    my_file_dict = json_parser.load('serialize_json_obj.txt')
-    print(my_file_dict)
-    print(type(my_file_dict))
-    '''
 
 
 if __name__ == "__main__":

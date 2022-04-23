@@ -2,6 +2,7 @@ import types
 
 co_list = ( 
     'co_argcount',
+    'co_posonlyargcount',
     'co_kwonlyargcount',
     'co_nlocals',
     'co_stacksize',
@@ -23,7 +24,7 @@ def serialize(obj):
     my_dict = {}
     if isinstance(obj, bool):
         return bool(obj)
-    elif isinstance(obj, (int,float, str)):
+    elif isinstance(obj, (int, float, str)):
         return obj
     elif isinstance(obj, tuple):
         key = 'tuple'
@@ -53,7 +54,7 @@ def serialize(obj):
         key = 'code'
         temp = {}
         sorted_list = list()
-        my_list = dir(obj)  
+        my_list = dir(obj)
         for item in my_list:
             if item.startswith('_'):
                 continue
@@ -69,10 +70,8 @@ def deserialize(serialized_obj):
     my_dict = {}
     if isinstance(serialized_obj, dict):
         for key, val in serialized_obj.items():
-            if key == 'bytes':
-                return bytes.fromhex(val)
-            elif key == 'func':
-                import __main__ 
+            if key == 'func':
+                import __main__
                 globals().update(__main__.__dict__)
                 def func(): ...
                 func.__code__ = deserialize(val)
@@ -83,6 +82,10 @@ def deserialize(serialized_obj):
                     temp.append(deserialize(val[co_item]))
                 temp_tuple = tuple(temp)
                 return types.CodeType(*temp_tuple)
+            elif key == 'bytes':
+                return bytes.fromhex(val)
+            elif isinstance(val, (int, float, str)):
+                return val
             elif key == 'dict':
                 return val
             elif key == 'tuple':
@@ -99,6 +102,17 @@ def deserialize(serialized_obj):
                 my_dict[deserialize(key)] = my_list
             else:
                 my_dict[deserialize(key)] = deserialize(val)
+    elif isinstance(serialized_obj, list):
+        my_list = []
+        for item in serialized_obj:
+            my_list.append(deserialize(item))
+        return my_list
+    elif isinstance(serialized_obj, tuple):
+        my_tuple_list = []
+        for item in my_tuple_list:
+            my_tuple_list.append(deserialize(item))
+        my_tuple = tuple(my_tuple_list)
+        return my_tuple
     elif isinstance(serialized_obj, (bool, int, float, str)):
         return serialized_obj
     return my_dict
