@@ -1,7 +1,6 @@
 import os
 import yaml
 from yaml import Loader
-
 from intermediate_parser import serialize_to_dict
 
 
@@ -13,6 +12,7 @@ class Yaml_parser:
         Yaml_parser.dump(obj, file)
         with open(file, 'r') as f:
             yaml_line = f.read()
+            f.close()
         os.remove(file)
         return yaml_line
 
@@ -27,6 +27,7 @@ class Yaml_parser:
     def load(my_file):
         stream = open(my_file, 'r')
         obj = yaml.load(stream, Loader=Loader)
+        stream.close()
         return serialize_to_dict.deserialize(obj)
 
     @staticmethod
