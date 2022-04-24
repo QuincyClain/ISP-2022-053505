@@ -5,8 +5,7 @@ from intermediate_parser import serialize_to_dict
 
 class TOML(abstract_parser.AbstractParser):
     def dump(self, obj, file):
-        serialized_obj = serialize_to_dict.serialize(obj)
-        return toml_parser.Toml_parser.dump(serialized_obj, file)
+        return toml_parser.Toml_parser.dump(obj, file)
 
 
     def dumps(self, obj):

@@ -1,6 +1,6 @@
-from factory import json_class
-from factory import yaml_class
-from factory import toml_class
+from my_factory import json_class
+from my_factory import yaml_class
+from my_factory import toml_class
 
 
 class Factory:

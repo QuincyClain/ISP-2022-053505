@@ -1,7 +1,10 @@
 import types
+import importlib
+import builtins
 
 co_list = ( 
     'co_argcount',
+    'co_posonlyargcount',
     'co_kwonlyargcount',
     'co_nlocals',
     'co_stacksize',
@@ -54,6 +57,7 @@ def serialize(obj):
         temp = {}
         sorted_list = list()
         my_list = dir(obj)
+        my_list.pop()
         for item in my_list:
             if item.startswith('_'):
                 continue
@@ -76,6 +80,14 @@ def deserialize(serialized_obj):
                 func.__code__ = deserialize(val)
                 return func
             elif key == 'code':
+                #getting globals
+                global_names = deserialize(val['co_names'])
+                for my_glob in global_names:
+                    if builtins.__dict__.get(my_glob, 10) == 10:
+                        try:
+                            builtins.__dict__[my_glob] = importlib.import_module(my_glob)
+                        except ModuleNotFoundError:
+                            builtins.__dict__[my_glob] = 10
                 temp = []
                 for co_item in co_list:
                     if isinstance(deserialize(val[co_item]), list):
@@ -86,8 +98,6 @@ def deserialize(serialized_obj):
                 return types.CodeType(*temp_tuple)
             elif key == 'bytes':
                 return bytes.fromhex(val)
-            elif isinstance(val, (int, float, str)):
-                return val
             elif key == 'dict':
                 return val
             elif key == 'tuple':
@@ -118,6 +128,4 @@ def deserialize(serialized_obj):
     elif isinstance(serialized_obj, (bool, int, float, str)):
         return serialized_obj
     return my_dict
-            
-
         

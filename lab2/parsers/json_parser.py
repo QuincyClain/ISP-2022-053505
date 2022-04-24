@@ -2,6 +2,7 @@ import ast
 from intermediate_parser import serialize_to_dict
 
 class Json_Parser:
+
     i = 0
 
     @staticmethod
@@ -32,13 +33,14 @@ class Json_Parser:
                     json_line += '}'
                 elif key == 'bytes':
                     json_line += '{'
-                    json_line+= Json_Parser.dumps(key) +': '+ Json_Parser.dumps(val)
+                    json_line += Json_Parser.dumps(key) +': '+ Json_Parser.dumps(val)
                     json_line += '}'
                 elif key == 'co_varnames':
                     json_line += Json_Parser.dumps(key) + ': ' + Json_Parser.dumps(val)
-                    while Json_Parser.i>0:
+                    while Json_Parser.i > 0:
                         json_line += '}'
                         Json_Parser.i -= 1
+                    return json_line
                 else:
                     if not key.startswith('co'): 
                         json_line += '{'
@@ -70,7 +72,7 @@ class Json_Parser:
         elif isinstance(obj, (int, float)):
             json_line += str(obj)
         elif isinstance(obj, str):
-            obj = obj.replace("\\", "/")
+            obj = obj.replace("\\", "\\\\")
             json_line += '\"' + obj + '\"'
         return json_line
 
